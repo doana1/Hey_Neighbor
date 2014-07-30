@@ -1,0 +1,15 @@
+- Bluetooth adapter transfer between views
+- Saving user input, startup file check
+- Games - tictactoe, puzzle, minesweeper, checkers
+- Chat view?
+
+Layout of Edit Profile
+-Include
+	-Auto-On Bluetooth & Discover?
+-Change
+	-Layout of view fields
+	-Add a background color/image?
+
+Connectivity
+-Include
+	-Option to Pair, to connect faster?
