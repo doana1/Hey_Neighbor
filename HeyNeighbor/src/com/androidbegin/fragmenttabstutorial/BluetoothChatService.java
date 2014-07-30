@@ -429,7 +429,6 @@ public class BluetoothChatService {
      * It handles all incoming and outgoing transmissions.
      */
     private class ConnectedThread extends Thread {
-    	private boolean stopThread = false;
         private final BluetoothSocket mmSocket;
         private final InputStream mmInStream;
         private final OutputStream mmOutStream;
@@ -458,7 +457,7 @@ public class BluetoothChatService {
             int bytes;
 
             // Keep listening to the InputStream while connected
-            while (!stopThread) {
+            while (true) {
                 try {
                     // Read from the InputStream
                     bytes = mmInStream.read(buffer);
@@ -493,7 +492,6 @@ public class BluetoothChatService {
         }
 
         public void cancel() {
-        	stopThread = true;
             try {
                 mmSocket.close();
             } catch (IOException e) {

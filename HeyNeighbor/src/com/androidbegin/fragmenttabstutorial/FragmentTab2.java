@@ -335,10 +335,18 @@ public class FragmentTab2 extends Fragment {
 
     @Override
     public void onDestroy() {
-        // Stop the Bluetooth chat services
-//        if (mChatService != null) mChatService.stop();
         super.onDestroy();
+        // Stop the Bluetooth chat services
+        if (mChatService != null) mChatService.stop();
         if(D) Log.e(TAG, "--- ON DESTROY ---");
+        
+     // Make sure we're not doing discovery anymore
+        if (mBtAdapter != null) {
+            mBtAdapter.cancelDiscovery();
+        }
+
+        // Unregister broadcast listeners
+        getActivity().unregisterReceiver(mReceiver);
     }
 
     private void ensureDiscoverable() {

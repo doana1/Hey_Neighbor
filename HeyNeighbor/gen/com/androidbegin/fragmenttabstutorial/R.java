@@ -16,30 +16,31 @@ public final class R {
         public static final int tab1=0x7f020002;
     }
     public static final class id {
-        public static final int appNumberCount=0x7f080010;
+        public static final int button1=0x7f080015;
         public static final int button2=0x7f080009;
         public static final int button3=0x7f08000e;
-        public static final int button_scan=0x7f080018;
-        public static final int button_send=0x7f08001b;
+        public static final int button_scan=0x7f080019;
+        public static final int button_send=0x7f08001c;
         public static final int editPage=0x7f080008;
         public static final int editText1=0x7f08000a;
         public static final int editText2=0x7f08000b;
         public static final int editText3=0x7f08000c;
         public static final int editText4=0x7f08000d;
-        public static final int edit_text_out=0x7f08001a;
+        public static final int edit_text_out=0x7f08001b;
         public static final int fragment_container=0x7f080000;
-        public static final int imageView1=0x7f08000f;
-        public static final int in=0x7f080019;
-        public static final int menu_settings=0x7f08001c;
-        public static final int new_devices=0x7f080017;
+        public static final int imageView1=0x7f080011;
+        public static final int in=0x7f08001a;
+        public static final int menu_settings=0x7f08001d;
+        public static final int new_devices=0x7f080018;
+        public static final int textView1=0x7f08000f;
+        public static final int textView2=0x7f080013;
+        public static final int textView3=0x7f080012;
+        public static final int textView4=0x7f080010;
+        public static final int textView5=0x7f080014;
         public static final int title_left_text=0x7f080001;
-        public static final int title_new_devices=0x7f080016;
-        public static final int title_paired_devices=0x7f080015;
+        public static final int title_new_devices=0x7f080017;
+        public static final int title_paired_devices=0x7f080016;
         public static final int title_right_text=0x7f080002;
-        public static final int userEmail=0x7f080013;
-        public static final int userName=0x7f080012;
-        public static final int userPhone=0x7f080014;
-        public static final int userStatus=0x7f080011;
         public static final int user_email=0x7f080003;
         public static final int user_name=0x7f080006;
         public static final int user_phone=0x7f080005;
@@ -51,7 +52,7 @@ public final class R {
         public static final int custom_title=0x7f030001;
         public static final int device_list=0x7f030002;
         public static final int device_name=0x7f030003;
-        public static final int edit_page=0x7f030004;
+        public static final int edit_profile=0x7f030004;
         public static final int fragmenttab1=0x7f030005;
         public static final int fragmenttab2=0x7f030006;
         public static final int fragmenttab3=0x7f030007;
@@ -67,7 +68,6 @@ public final class R {
         public static final int status=0x7f040003;
     }
     public static final class string {
-        public static final int Edit_Page=0x7f05001d;
         public static final int Find=0x7f05000d;
         public static final int Fragment1=0x7f050002;
         public static final int Fragment2=0x7f050003;
