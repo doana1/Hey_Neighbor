@@ -1,32 +1,6 @@
 package com.androidbegin.fragmenttabstutorial;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Set;
-
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
@@ -36,6 +10,25 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class FragmentTab2 extends Fragment {
     
@@ -55,7 +48,7 @@ public class FragmentTab2 extends Fragment {
     public static final String TOAST = "toast";
 
     // Intent request codes
-    private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
+    //private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
     private static final int REQUEST_CONNECT_DEVICE_INSECURE = 2;
     private static final int REQUEST_ENABLE_BT = 3;
 
@@ -105,6 +98,12 @@ public class FragmentTab2 extends Fragment {
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragmenttab2, container, false);
         
+        /**
+         * Start Flag
+         * Viewing other user's data
+         * Current code only views data from raw files
+         */
+        /*
         InputStream getName = getResources().openRawResource(R.raw.name);
         InputStream getPhone = getResources().openRawResource(R.raw.phone);
         InputStream getEmail = getResources().openRawResource(R.raw.email);
@@ -114,16 +113,29 @@ public class FragmentTab2 extends Fragment {
         BufferedReader phoneReader = new BufferedReader(new InputStreamReader(getPhone));
         BufferedReader emailReader = new BufferedReader(new InputStreamReader(getEmail));
         BufferedReader statusReader = new BufferedReader(new InputStreamReader(getStatus));
-        
-        try {
-			DeviceListActivity.name = nameReader.readLine();
-			DeviceListActivity.phone = phoneReader.readLine();
-			DeviceListActivity.email = emailReader.readLine();
-			DeviceListActivity.status = statusReader.readLine();
+        */
+        /**
+         * Accesses the userProfile SharedPreferences
+         */
+    	SharedPreferences userProfile = getActivity().getPreferences(Context.MODE_PRIVATE);
+    	
+    	String name = userProfile.getString("name","name");
+        String phone = userProfile.getString("phone","123-456-7890");
+        String email = userProfile.getString("email","example@example.example");
+        String status = userProfile.getString("status","I like my status!");
+    	
+    	
+        //try {
+			DeviceListActivity.name = name;
+			DeviceListActivity.phone = phone;
+			DeviceListActivity.email = email;
+			DeviceListActivity.status = status;
+		/*
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		*/
         
         if(D) Log.e(TAG, "+++ ON CREATE +++");
 
@@ -149,7 +161,7 @@ public class FragmentTab2 extends Fragment {
         scanButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 doDiscovery();
-                v.setVisibility(View.GONE);
+                //v.setVisibility(View.GONE);
             }
         });
 
@@ -178,6 +190,8 @@ public class FragmentTab2 extends Fragment {
 
         // Get the local Bluetooth adapter
         mBtAdapter = BluetoothAdapter.getDefaultAdapter();
+        
+        
 
         // Get a set of currently paired devices
         Set<BluetoothDevice> pairedDevices = mBtAdapter.getBondedDevices();
@@ -268,9 +282,15 @@ public class FragmentTab2 extends Fragment {
         if (!mBluetoothAdapter.isEnabled()) {
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+        	SharedPreferences userProfile = getActivity().getPreferences(Context.MODE_PRIVATE);
+        	String name = userProfile.getString("name","name");
+            mBluetoothAdapter.setName(name);
         // Otherwise, setup the chat session
         } else {
             if (mChatService == null) setupChat();
+        	SharedPreferences userProfile = getActivity().getPreferences(Context.MODE_PRIVATE);
+        	String name = userProfile.getString("name","name");
+            mBluetoothAdapter.setName(name);
         }
     }
 
@@ -336,7 +356,7 @@ public class FragmentTab2 extends Fragment {
     @Override
     public void onDestroy() {
         // Stop the Bluetooth chat services
-//        if (mChatService != null) mChatService.stop();
+        if (mChatService != null) mChatService.stop();
         super.onDestroy();
         if(D) Log.e(TAG, "--- ON DESTROY ---");
     }
@@ -530,7 +550,7 @@ public class FragmentTab2 extends Fragment {
 
             // Create the result Intent and include the MAC address
             Intent intent = new Intent();
-            intent.putExtra(EXTRA_DEVICE_ADDRESS, address);
+            intent.putExtra(EXTRA_DEVICE_ADDRESS,address);
             
             connectDevice(intent, false);
             
@@ -557,6 +577,11 @@ public class FragmentTab2 extends Fragment {
                 if (device.getBondState() != BluetoothDevice.BOND_BONDED) {
                     mNewDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
                 }
+                /**
+                 * For some reason
+                 * if we remove + device.getAddress() above
+                 * the app crashes when selecting that user to connect to
+                 */
             // When discovery is finished, change the Activity title
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
                 getActivity().setProgressBarIndeterminateVisibility(false);

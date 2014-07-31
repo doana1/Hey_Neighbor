@@ -41,8 +41,8 @@ public final class R {
         public static final int userPhone=0x7f080014;
         public static final int userStatus=0x7f080011;
         public static final int user_email=0x7f080003;
-        public static final int user_name=0x7f080006;
-        public static final int user_phone=0x7f080005;
+        public static final int user_name=0x7f080005;
+        public static final int user_phone=0x7f080006;
         public static final int user_picture=0x7f080004;
         public static final int user_status=0x7f080007;
     }
@@ -52,11 +52,10 @@ public final class R {
         public static final int device_list=0x7f030002;
         public static final int device_name=0x7f030003;
         public static final int edit_page=0x7f030004;
-        public static final int edit_profile=0x7f030005;
-        public static final int fragmenttab1=0x7f030006;
-        public static final int fragmenttab2=0x7f030007;
-        public static final int fragmenttab3=0x7f030008;
-        public static final int message=0x7f030009;
+        public static final int fragmenttab1=0x7f030005;
+        public static final int fragmenttab2=0x7f030006;
+        public static final int fragmenttab3=0x7f030007;
+        public static final int message=0x7f030008;
     }
     public static final class menu {
         public static final int activity_main=0x7f070000;
