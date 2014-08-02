@@ -32,7 +32,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class FragmentTab2 extends Fragment {
-    
+	
+	/**
+	 * Not sure if it's safe to store MAC Addresses in that string
+	 */
+	private String MAC = "";
+	
 	// Debugging
     private static final String TAG = "BluetoothChat";
     private static final boolean D = true;
@@ -557,7 +562,8 @@ public class FragmentTab2 extends Fragment {
 
             // Get the device MAC address, which is the last 17 chars in the View
             String info = ((TextView) v).getText().toString();
-            String address = info.substring(info.length() - 17);
+            String address = MAC;
+            mNewDevicesArrayAdapter.remove("");
             /**
              * The reason the app crashes when MAC Adress is removed (above)
              * MAC Adress contains 17 characters including the colons(:)
@@ -590,7 +596,8 @@ public class FragmentTab2 extends Fragment {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 // If it's already paired, skip it, because it's been listed already
                 if (device.getBondState() != BluetoothDevice.BOND_BONDED) {
-                    mNewDevicesArrayAdapter.add(device.getName() + device.getAddress());
+                    mNewDevicesArrayAdapter.add(device.getName());
+                    MAC = device.getAddress();
                 }
                 /**
                  * For some reason
