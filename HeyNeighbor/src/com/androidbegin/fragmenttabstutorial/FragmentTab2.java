@@ -1,6 +1,7 @@
 package com.androidbegin.fragmenttabstutorial;
 
 import java.util.Set;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
@@ -48,7 +49,11 @@ public class FragmentTab2 extends Fragment {
     public static final String TOAST = "toast";
 
     // Intent request codes
-    //private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
+    /**
+     * Secure is not used for HeyNeighbor
+     * Insecure is used to skip pairing phase
+     */
+    private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
     private static final int REQUEST_CONNECT_DEVICE_INSECURE = 2;
     private static final int REQUEST_ENABLE_BT = 3;
 
@@ -73,9 +78,15 @@ public class FragmentTab2 extends Fragment {
     //private static final boolean D = true;
 
     // Return Intent extra
+    /**
+     * Inputed here by developers of HeyNeighbor
+     */
     public static String EXTRA_DEVICE_ADDRESS = "device_address";
 
     // Member fields
+    /**
+     * Inputted here by developers of HeyNeighbor
+     */
     private BluetoothAdapter mBtAdapter;
     private ArrayAdapter<String> mPairedDevicesArrayAdapter;
     private ArrayAdapter<String> mNewDevicesArrayAdapter;
@@ -132,7 +143,7 @@ public class FragmentTab2 extends Fragment {
 			DeviceListActivity.status = status;
 		/*
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			// 
 			e.printStackTrace();
 		}
 		*/
@@ -161,7 +172,7 @@ public class FragmentTab2 extends Fragment {
         scanButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 doDiscovery();
-                //v.setVisibility(View.GONE);
+                v.setVisibility(View.GONE);
             }
         });
 
@@ -200,7 +211,7 @@ public class FragmentTab2 extends Fragment {
         if (pairedDevices.size() > 0) {
             rootView.findViewById(R.id.title_paired_devices).setVisibility(View.VISIBLE);
             for (BluetoothDevice device : pairedDevices) {
-            	mNewDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+            	mNewDevicesArrayAdapter.add(device.getName());
             }
         } else {
             String noDevices = getResources().getText(R.string.none_paired).toString();
@@ -228,7 +239,7 @@ public class FragmentTab2 extends Fragment {
   			
   			@Override
   			public void onClick(View v) {
-  				// TODO Auto-generated method stub
+  				// 
   				on(v);
   			}
   	      });
@@ -238,7 +249,7 @@ public class FragmentTab2 extends Fragment {
 	  		
 	  		@Override
 	  		public void onClick(View v) {
-	  			// TODO Auto-generated method stub
+	  			// 
 	  			off(v);
 	  		}
 	      });
@@ -248,7 +259,7 @@ public class FragmentTab2 extends Fragment {
 	  		
 	  		@Override
 	  		public void onClick(View v) {
-	  			// TODO Auto-generated method stub
+	  			// 
 	  			list(v);
 	  		}
 	      });
@@ -258,7 +269,7 @@ public class FragmentTab2 extends Fragment {
 	  		
 	  		@Override
 	  		public void onClick(View v) {
-	  			// TODO Auto-generated method stub
+	  			// 
 	  			find(v);
 	  		}
 	      });
@@ -452,10 +463,10 @@ public class FragmentTab2 extends Fragment {
                 
                 if(readMessage.startsWith("un "))
                 {
-                	DeviceListActivity.name=readMessage.substring(readMessage.indexOf(" "), readMessage.indexOf("~"));
-                	DeviceListActivity.phone=readMessage.substring(readMessage.indexOf("~"), readMessage.indexOf("%"));
-                	DeviceListActivity.email=readMessage.substring(readMessage.indexOf("%"), readMessage.indexOf("^"));
-                	DeviceListActivity.status=readMessage.substring(readMessage.indexOf("^"), readMessage.indexOf("<"));
+//                	DeviceListActivity.name=readMessage.substring(readMessage.indexOf(" "), readMessage.indexOf("~"));
+//                	DeviceListActivity.phone=readMessage.substring(readMessage.indexOf("~"), readMessage.indexOf("%"));
+//                	DeviceListActivity.email=readMessage.substring(readMessage.indexOf("%"), readMessage.indexOf("^"));
+//                	DeviceListActivity.status=readMessage.substring(readMessage.indexOf("^"), readMessage.indexOf("<"));
                 }
                 else
                 {
@@ -547,7 +558,11 @@ public class FragmentTab2 extends Fragment {
             // Get the device MAC address, which is the last 17 chars in the View
             String info = ((TextView) v).getText().toString();
             String address = info.substring(info.length() - 17);
-
+            /**
+             * The reason the app crashes when MAC Adress is removed (above)
+             * MAC Adress contains 17 characters including the colons(:)
+             * Have to rewrite how address is obtained
+             */
             // Create the result Intent and include the MAC address
             Intent intent = new Intent();
             intent.putExtra(EXTRA_DEVICE_ADDRESS,address);
@@ -575,7 +590,7 @@ public class FragmentTab2 extends Fragment {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 // If it's already paired, skip it, because it's been listed already
                 if (device.getBondState() != BluetoothDevice.BOND_BONDED) {
-                    mNewDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+                    mNewDevicesArrayAdapter.add(device.getName() + device.getAddress());
                 }
                 /**
                  * For some reason
@@ -645,7 +660,7 @@ public class FragmentTab2 extends Fragment {
 	   
 	   @Override
 	   public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		   // TODO Auto-generated method stub
+		   // 
 		   if(requestCode == REQUEST_ENABLE_BT){
 			   if(myBluetoothAdapter.isEnabled()) {
 				   text.setText("Status: Enabled");
@@ -701,7 +716,7 @@ public class FragmentTab2 extends Fragment {
 	   
 	   @Override
 	   public void onDestroy() {
-		   // TODO Auto-generated method stub
+		   // 
 		   super.onDestroy();
 		   getActivity().unregisterReceiver(bReceiver);
 	   }*/
